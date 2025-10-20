@@ -3,167 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pella System - Dashboard</title>
+    <title>Pella System</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
+    <!-- صفحة الدخول -->
     <div id="login-page" class="page active">
         <div class="login-container">
-            <div class="login-header">
-                <i class="fas fa-robot"></i>
-                <h1>Pella System</h1>
-                <p>أدخل كود الدخول للوصول إلى اللوحة</p>
-            </div>
+            <h1>Pella System</h1>
+            <p>أدخل كود الدخول</p>
             <form id="login-form">
                 <div class="input-group">
-                    <input type="password" id="login-code" placeholder="أدخل كود الدخول" required>
-                    <i class="fas fa-lock"></i>
+                    <input type="password" id="login-code" placeholder="كود الدخول" required>
                 </div>
-                <div class="input-group">
-                    <input type="text" id="api-url" placeholder="رابط API البوت (مثال: https://bot.yoursite.com)" required>
-                    <i class="fas fa-link"></i>
-                </div>
-                <button type="submit" class="btn-primary">
-                    <i class="fas fa-sign-in-alt"></i>
-                    دخول
-                </button>
+                <button type="submit" class="btn-primary">دخول</button>
             </form>
-            <div id="login-message" class="message"></div>
         </div>
     </div>
 
+    <!-- الداشبورد -->
     <div id="dashboard-page" class="page">
         <header class="header">
-            <div class="header-content">
-                <div class="header-title">
-                    <i class="fas fa-robot"></i>
-                    <h1>Pella System Dashboard</h1>
-                </div>
-                <div class="header-info">
-                    <span id="connection-status" class="status-offline">
-                        <i class="fas fa-circle"></i>
-                        غير متصل
-                    </span>
-                    <button id="logout-btn" class="btn-secondary">
-                        <i class="fas fa-sign-out-alt"></i>
-                        تسجيل الخروج
-                    </button>
-                </div>
-            </div>
+            <h1>Pella Dashboard</h1>
+            <button id="logout-btn">تسجيل الخروج</button>
         </header>
 
         <main class="main-content">
+            <!-- السيرفرات -->
             <div id="servers-section" class="section active">
-                <h2><i class="fas fa-server"></i> السيرفرات المتاحة</h2>
-                <div class="section-actions">
-                    <button class="btn-success" onclick="testConnection()">
-                        <i class="fas fa-wifi"></i>
-                        فحص الاتصال
-                    </button>
-                </div>
-                <div id="servers-grid" class="grid">
-                    <!-- السيرفرات تظهر هنا -->
-                </div>
-                <div id="loading-servers" class="loading">
-                    <i class="fas fa-spinner fa-spin"></i>
-                    جاري تحميل السيرفرات...
-                </div>
+                <h2>السيرفرات المتاحة</h2>
+                <div id="servers-grid"></div>
             </div>
 
+            <!-- الأعضاء -->
             <div id="members-section" class="section">
-                <div class="section-header">
-                    <button id="back-to-servers" class="btn-back">
-                        <i class="fas fa-arrow-right"></i>
-                        العودة للسيرفرات
-                    </button>
-                    <h2><i class="fas fa-users"></i> إدارة النقاط - <span id="current-server-name"></span></h2>
-                </div>
-                
-                <div class="members-controls">
-                    <div class="search-box">
-                        <input type="text" id="member-search" placeholder="ابحث عن عضو...">
-                        <i class="fas fa-search"></i>
-                    </div>
-                    <div class="stats">
-                        <div class="stat-card">
-                            <i class="fas fa-users"></i>
-                            <span id="total-members">0</span>
-                            <small>إجمالي الأعضاء</small>
-                        </div>
-                        <div class="stat-card">
-                            <i class="fas fa-coins"></i>
-                            <span id="total-points">0</span>
-                            <small>إجمالي النقاط</small>
-                        </div>
-                        <div class="stat-card">
-                            <i class="fas fa-chart-line"></i>
-                            <span id="average-points">0</span>
-                            <small>متوسط النقاط</small>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="members-list" class="members-list">
-                    <!-- الأعضاء يظهرون هنا -->
-                </div>
-                <div id="loading-members" class="loading">
-                    <i class="fas fa-spinner fa-spin"></i>
-                    جاري تحميل الأعضاء...
-                </div>
+                <button id="back-to-servers">← العودة</button>
+                <h2>إدارة النقاط - <span id="current-server-name"></span></h2>
+                <div id="members-list"></div>
             </div>
         </main>
-    </div>
-
-    <!-- مودال النقاط -->
-    <div id="points-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>إدارة النقاط</h3>
-                <button class="close-modal" onclick="closeModal('points-modal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="member-info">
-                    <img id="modal-avatar" src="" alt="Avatar">
-                    <div>
-                        <h4 id="modal-username"></h4>
-                        <p id="modal-current-points"></p>
-                    </div>
-                </div>
-                <div class="points-actions">
-                    <div class="action-group">
-                        <label>إضافة نقاط:</label>
-                        <div class="input-with-btn">
-                            <input type="number" id="add-amount" min="1" placeholder="المبلغ">
-                            <button onclick="modifyPoints('add')" class="btn-success">
-                                <i class="fas fa-plus"></i>
-                                إضافة
-                            </button>
-                        </div>
-                    </div>
-                    <div class="action-group">
-                        <label>إزالة نقاط:</label>
-                        <div class="input-with-btn">
-                            <input type="number" id="remove-amount" min="1" placeholder="المبلغ">
-                            <button onclick="modifyPoints('remove')" class="btn-danger">
-                                <i class="fas fa-minus"></i>
-                                إزالة
-                            </button>
-                        </div>
-                    </div>
-                    <div class="action-group">
-                        <label>تعيين النقاط:</label>
-                        <div class="input-with-btn">
-                            <input type="number" id="set-amount" min="0" placeholder="القيمة الجديدة">
-                            <button onclick="modifyPoints('set')" class="btn-warning">
-                                <i class="fas fa-edit"></i>
-                                تعيين
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
     <script src="script.js"></script>
