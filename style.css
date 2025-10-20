@@ -1,0 +1,62 @@
+/* كل الـ CSS السابق + هذه الإضافات */
+
+.status-online, .status-offline {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.status-online {
+    background: #e8f5e8;
+    color: #2ECC71;
+}
+
+.status-offline {
+    background: #ffeaea;
+    color: #E74C3C;
+}
+
+.status-online i, .status-offline i {
+    font-size: 8px;
+}
+
+.header-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.section-actions {
+    margin-bottom: 20px;
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: var(--gray);
+    font-size: 18px;
+}
+
+.loading i {
+    margin-right: 10px;
+}
+
+.connection-test {
+    background: var(--light);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.connection-test.success {
+    border-left: 4px solid var(--secondary);
+}
+
+.connection-test.error {
+    border-left: 4px solid var(--danger);
+}
